@@ -3,21 +3,23 @@
 // convenience to get you started writing code faster.
 //
 
-export const toRna = () => {
-  let res = "";
 
-  for (let i = 0; i <toRna.length; i++) {
-    const nucleotide = toRna.charAt(i);
-    let new_nucleotide = nucleotide;
-    if(nucleotide === 'G')
-      new_nucleotide='C';
-    else if(nucleotide === 'C')
-      new_nucleotide='G';
-    else if(nucleotide === 'T')
-      new_nucleotide='A';
-    else if(nucleotide === 'A')
-      new_nucleotide='U';
-    res = res.concat(new_nucleotide);
+const dnaToRnaMap = new Map([
+  ['G', 'C'],
+  ['C', 'G'],
+  ['T', 'A'],
+  ['A', 'U']
+]);
+function dnaToRnaMapper(nucleotide) {
+  let newNucleotide = dnaToRnaMap.get(nucleotide);
+  if(newNucleotide === undefined){
+    throw new Error('Invalid DNA');
   }
-  return res;
-};
+  return newNucleotide;
+}
+export function toRna(dna){
+  let rna = '';
+  [...dna].forEach(nucleotide => rna+=dnaToRnaMapper(nucleotide));
+  return rna;
+}
+

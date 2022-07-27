@@ -4,15 +4,21 @@
 //
 
 export const hey = (message) => {
-  const trimmed_message = message.trim();
-  if(trimmed_message.slice(-1)==='?' && (trimmed_message.match(/^[A-Z]*$/)))
-    return "Calm down, I know what I'm doing!";
-  if(trimmed_message.slice(-1)==='?')
-    return "Sure.";
-  if(!(/[a-zA-Z]/.test(trimmed_message)) && !(/\d/. test(trimmed_message)) )
+  // Test whether the input is empty or space character(s).
+  if (/^\s*$/u.test(message))
     return "Fine. Be that way!";
-  if(trimmed_message.match(/^[A-Z]*$/))
-    return  "Whoa, chill out!";
-
+  // Test whether the input has upper case - and no lower case - characters.
+  const is_shouted = /[\p{Lu}]/u.test(message) && !/[\p{Ll}]/u.test(message);
+  // Test whether the input ends with a question mark.
+  const is_question = /\?\s*$/u.test(message);
+  if (is_question && is_shouted) {
+    return "Calm down, I know what I'm doing!";
+  }
+  if (is_question) {
+    return "Sure.";
+  }
+  if (is_shouted) {
+    return "Whoa, chill out!";
+  }
   return "Whatever.";
 };
